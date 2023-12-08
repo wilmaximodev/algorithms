@@ -2,23 +2,28 @@ import pytest
 from challenges.challenge_encrypt_message import encrypt_message
 
 
-def test_encrypt_message_wilson():
-    # Testando com key inválido (deve levantar TypeError)
+def test_encrypt_message():
+    # Teste para key inválido (deve levantar TypeError)
     with pytest.raises(TypeError, match="tipo inválido para key"):
-        encrypt_message("Wilson", "42")
+        result = encrypt_message("teste", "f")
+        assert result is None, f"Esperava None, mas obteve {result}"
 
-    # Testando com message inválido (deve levantar TypeError)
+    # Teste para message inválido (deve levantar TypeError)
     with pytest.raises(TypeError, match="tipo inválido para message"):
-        encrypt_message(123, 3)
+        result = encrypt_message(8, "f")
+        assert result is None, f"Esperava None, mas obteve {result}"
 
-    # Testando a criptografia com key igual a 1
-    # Espera-se que o último caractere seja movido para o início
-    assert encrypt_message("Wilson", 1) == "nWilso"
+    # Teste para criptografia com key igual a 8
+    # Espera-se que a palavra seja invertida
+    result = encrypt_message("teste", 8)
+    assert result == "etset", f"Esperava 'etset', mas obteve {result}"
 
-    # Testando a criptografia com key igual a 3
+    # Teste para criptografia com key igual a 3
     # Espera-se que os três últimos caracteres sejam movidos para o início
-    assert encrypt_message("Wilson", 3) == "sonWil"
+    result = encrypt_message("teste", 3)
+    assert result == "set_et", f"Esperava 'set_et', mas obteve {result}"
 
-    # Testando a criptografia com key igual a 6
-    # Espera-se que nada seja alterado, já que 6 % len("Wilson") == 0
-    assert encrypt_message("Wilson", 6) == "Wilson"
+    # Teste para criptografia com key igual a 2 em uma palavra mais longa
+    # Espera-se que os dois últimos caracteres sejam movidos para o início
+    result = encrypt_message("errooouu", 2)
+    assert result == "uuooor_re", f"Esperava 'uuooor_re', mas obteve {result}"
