@@ -1,6 +1,7 @@
 import pytest
 from challenges.challenge_encrypt_message import encrypt_message
 
+
 def test_encrypt_message_wilson():
     # Testando com key inválido (deve levantar TypeError)
     with pytest.raises(TypeError, match="tipo inválido para key"):
