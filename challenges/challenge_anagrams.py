@@ -16,6 +16,7 @@ def quick_sort(word):
             + quick_sort(larger_elements)
         )
 
+
 def is_anagram(first_string, second_string):
     # Verifica se ambas as strings são vazias
     if not first_string and not second_string:
