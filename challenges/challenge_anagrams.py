@@ -1,51 +1,33 @@
-def merge(left, right):
-    result = []
-    i, j = 0, 0
-
-    # Percorre ambas as listas comparando elementos
-    while i < len(left) and j < len(right):
-        if left[i] < right[j]:
-            result.append(left[i])
-            i += 1
-        else:
-            result.append(right[j])
-            j += 1
-
-    # Adiciona os elementos restantes de ambas as listas (caso existam)
-    result.extend(left[i:])
-    result.extend(right[j:])
-
-    return result
-
-
-def merge_sort(arr):
+def quick_sort(word):
     # Caso base: lista com 0 ou 1 elemento já está ordenada
-    if len(arr) <= 1:
-        return arr
+    if len(word) <= 1:
+        return word
+    else:
+        # Elemento de referência (pivô) é o primeiro elemento da lista
+        pivot = word[0]
+        # Lista de elementos menores ou iguais ao pivô
+        smaller_elements = [x for x in word[1:] if x <= pivot]
+        # Lista de elementos maiores que o pivô
+        larger_elements = [x for x in word[1:] if x > pivot]
+        # Combinação recursiva das listas ordenadas
+        return (
+            quick_sort(smaller_elements)
+            + [pivot]
+            + quick_sort(larger_elements)
+        )
 
-    # Divide a lista ao meio
-    mid = len(arr) // 2
-    left_half = merge_sort(arr[:mid])
-    right_half = merge_sort(arr[mid:])
-
-    # Combina as duas metades ordenadas
-    return merge(left_half, right_half)
-
-
-def is_anagram(str1, str2):
-    # Se uma das strings for vazia, não são anagramas
-    if not str1 or not str2:
-        sorted_str1, sorted_str2 = merge_sort(str1), merge_sort(str2)
-        return sorted_str1, sorted_str2, False
+def is_anagram(first_string, second_string):
+    # Verifica se ambas as strings são vazias
+    if not first_string and not second_string:
+        return (first_string, second_string, False)
 
     # Converte as strings para minúsculas
-    str1, str2 = str1.lower(), str2.lower()
+    first_string = first_string.lower()
+    second_string = second_string.lower()
 
-    # Se as strings têm comprimentos diferentes, não são anagramas
-    if len(str1) != len(str2):
-        sorted_str1, sorted_str2 = merge_sort(str1), merge_sort(str2)
-        return sorted_str1, sorted_str2, False
+    # Ordena os caracteres das strings
+    first_sorted = "".join(quick_sort(first_string))
+    second_sorted = "".join(quick_sort(second_string))
 
-    # Ordena as strings e verifica se são iguais
-    sorted_str1, sorted_str2 = merge_sort(str1), merge_sort(str2)
-    return sorted_str1, sorted_str2, sorted_str1 == sorted_str2
+    # Verifica se as strings ordenadas são iguais (anagramas)
+    return (first_sorted, second_sorted, first_sorted == second_sorted)
