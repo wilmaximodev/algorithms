@@ -1,5 +1,5 @@
 def is_palindrome_iterative(word):
-      # Verifica se a palavra é vazia
+    # Verifica se a palavra é vazia
     if not word:
         return False
 
